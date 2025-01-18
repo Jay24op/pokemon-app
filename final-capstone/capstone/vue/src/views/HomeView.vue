@@ -16,8 +16,8 @@
       </div>
     </section>
     <section id="pokemon-list">
-      <router-link :to="{name: 'pokemon-details', params: {pokemonId: pokemon.id}}" class="pokemon-card" v-for="pokemon in pokemonArray" :key="pokemon.name">
-        <img :src="`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}`">
+      <router-link :to="{name: 'pokemon-details', params: {pokemonId: pokemon.id}}" v-for="pokemon in pokemonArray" :key="pokemon.name" class="pokemon-card">
+        <img :src="`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`">
       {{ pokemon.name }}
     </router-link>
     </section>
@@ -36,10 +36,9 @@ export default {
   created() {
     PokeApiService.getMore().then(response => {
       this.pokemonArray = response.data.results.map(result => {
-        const indexOfPokemon = result.url.lastIndexOf('/pokemon/');
+        const indexOfPokemon = result.url.lastIndexOf('pokemon/');
         const indexOfLastSlash = result.url.lastIndexOf('/');
-        const id = result.url.substring(indexOfLastSlash - 1, indexOfLastSlash)
-        console.log(id)
+        const id = result.url.substring(indexOfPokemon + 8, indexOfLastSlash)
 
         return {
           id: id,
@@ -63,6 +62,8 @@ export default {
 .pokemon-card {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   border: 1px solid black;
   border-radius: 8px;
   padding: 10px;

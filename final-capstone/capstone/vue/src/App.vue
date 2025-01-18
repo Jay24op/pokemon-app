@@ -9,3 +9,18 @@
     <router-view />
   </div>
 </template>
+
+<style>
+
+
+
+#capstone-app {
+  /* min-height: 100vh;
+  background-image: var(--logo);
+  background-color: var(--red);
+  background-repeat: no-repeat;
+  background-position:center;
+  background-size: contain; */
+  /* background-attachment: scroll, local; */
+}
+</style>

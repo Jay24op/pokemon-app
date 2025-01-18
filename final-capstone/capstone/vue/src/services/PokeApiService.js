@@ -11,6 +11,6 @@ export default {
     },
 
     getDetailsByIdOrName(idOrName) {
-        return http.get(`pokemon/${idOrName}`)
+        return http.get(`/pokemon/${idOrName}`)
     }
 }

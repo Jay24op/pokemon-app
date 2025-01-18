@@ -1,0 +1,28 @@
+:root {
+  --red: #ff0000;
+  --blue: #3b4cca;
+  --yellow: #ffde00;
+  --white: #fcfcfc;
+  --grey: #36454F;
+  --logo: url("./pokemon-logo.png");
+  --pokeball-gradient: linear-gradient(var(--red) 0%, var(--grey) 50%,var(--white) 75%);
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 20px;
+  background-image: var(--logo), var(--pokeball-gradient);
+  background-repeat: no-repeat;
+  background-position: top;
+  background-size: contain;
+  /* background-attachment: scroll, local; */
+
+
+}

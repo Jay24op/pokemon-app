@@ -8,6 +8,14 @@
             <p>Height:{{ pokemon.height }}</p>
             <p>Weight:{{ pokemon.weight }}</p>
         </section>
+
+        <section>
+            <!-- evolution section? -->
+            <div>
+                <img src="" alt="">
+                <p>Name:</p>
+            </div>
+        </section>
     </div>
 </template>
 
