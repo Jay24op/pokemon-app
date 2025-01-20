@@ -12,7 +12,9 @@
         <img src="./assets/pokemon-logo.png" alt="">
       </section>
     </section>
-    <router-view />
+    <section id="view">
+      <router-view/>
+    </section>
   </div>
 </template>
 
@@ -28,13 +30,13 @@
 }
 
 #nav {
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: bold;
   display: flex;
   align-items: center;
   justify-content: center;
   height: 5rem;
-  width: 25rem;
+  width: 35rem;
   min-width: fit-content;
   margin: 0 1rem 0 auto;
   border: .4rem solid var(--yellow);
@@ -54,16 +56,16 @@
 }
 
 .links > a:hover, .links > .router-link-exact-active {
-  color: var(--turtoise);
+  color: var(--turquoise);
 }
 
 .links > a:hover {
-  font-size: 2.25rem;
+  font-size: 1.7rem;
 }
 
 .links > img {
   max-height: 100%;
-  margin: 0 1rem;
+  margin: 0 1.2rem 0 1rem;
 }
 
 #logo {
@@ -77,6 +79,10 @@
 #logo > img {
   height: 100%;
   max-width: 100%;
+}
+
+#view {
+  padding: .5rem 2rem 1.5rem;
 }
 
 </style>

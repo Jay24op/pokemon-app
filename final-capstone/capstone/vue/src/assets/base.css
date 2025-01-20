@@ -1,10 +1,17 @@
+@font-face {
+  font-family: 'Pokemon-GB';
+  /* https://www.fontspace.com/pokemon-gb-font-f9621 */
+  src: url(./PokemonGb-RAeo.ttf);
+}
+
 :root {
   --red: #ff0000;
-  --blue: #3b4cca;
+  --blue: #2C399D; /*#3b4cca*/
   --yellow: #ffde00;
   --white: #fcfcfc;
+  --light-grey: #ccc;
   --grey: #36454f;
-  --turtoise: #40E0D0;
+  --turquoise: #40E0D0;
   --grey-tint: rgba(54, 69, 79, 0.192);
   --nav-interior: var(--white);
   --pokeball-gradient: linear-gradient(
@@ -26,7 +33,7 @@
 
 html {
   font-size: 62.5%; /*1 rem = 10px*/
-
+  font-family: 'Pokemon-GB', 'Times New Roman', Times, serif;
 }
 
 body {
