@@ -3,9 +3,15 @@
   --blue: #3b4cca;
   --yellow: #ffde00;
   --white: #fcfcfc;
-  --grey: #36454F;
-  --logo: url("./pokemon-logo.png");
-  --pokeball-gradient: linear-gradient(var(--red) 0%, var(--grey) 50%,var(--white) 75%);
+  --grey: #36454f;
+  --turtoise: #40E0D0;
+  --grey-tint: rgba(54, 69, 79, 0.192);
+  --nav-interior: var(--white);
+  --pokeball-gradient: linear-gradient(
+    var(--red) 0%,
+    var(--grey) 87%,
+    var(--white) 95%
+  );
 }
 
 *,
@@ -13,16 +19,17 @@
 *::after {
   margin: 0;
   padding: 0;
+  list-style: none;
+  text-decoration: none;
   box-sizing: border-box;
 }
 
+html {
+  font-size: 62.5%; /*1 rem = 10px*/
+
+}
+
 body {
-  margin: 20px;
-  background-image: var(--logo), var(--pokeball-gradient);
-  background-repeat: no-repeat;
-  background-position: top;
-  background-size: contain;
-  /* background-attachment: scroll, local; */
-
-
+  min-height: 100vh;
+  width: 100%;
 }
