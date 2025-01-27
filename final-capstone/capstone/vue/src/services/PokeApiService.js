@@ -10,23 +10,19 @@ export default {
         return http.get('/pokemon')
     },
 
-    get60() {
-        return http.get('/pokemon?offset=0&limit=60')
+    getPokemon(limit, offset) {
+        return http.get(`pokemon?offset=${offset}&limit=${limit}`)
     },
 
     getDetailsByIdOrName(idOrName) {
         return http.get(`/pokemon/${idOrName}`)
     },
 
-    getPrev(limit, offset) {
-        return http.get(`pokemon?offset=${offset}&limit=${{limit}}`)
-    },
-
-    getNext(limit, offset) {
-        return http.get(`pokemon?offset=${offset}&limit=${limit}`)
+    getEvolutions(evolutionId) {
+        return http.get(`/evolution-chain/${evolutionId}`);
     },
     
-    getPokemon(limit, offset) {
-        return http.get(`pokemon?offset=${offset}&limit=${limit}`)
-    }
+    getSpeciesById(id) {
+        return http.get(`/pokemon-species/${id}`)
+    },
 }

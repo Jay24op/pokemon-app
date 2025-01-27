@@ -5,24 +5,31 @@
     <section id="display">
       <div class="results">
         <h2>Results per page:</h2>
-        <select name="result" id="result-dropdown" v-model="currentLimit" @change="switchedLimit = true;">
-          <option value="20" class="selected">20</option>
-          <option value="40">40</option>
-          <option value="60">60</option>
-          <option value="80">80</option>
+        <select name="result" id="result-dropdown" v-model="limit">
+          <option value="20" :class="{ selected: limit === '20' }">20</option>
+          <option value="40" :class="{ selected: limit === '40' }">40</option>
+          <option value="60" :class="{ selected: limit === '60' }">60</option>
+          <option value="80" :class="{ selected: limit === '80' }">80</option>
         </select>
       </div>
 
       <div class="btns">
-        <a @click="getPrevPokemon(limit)">Prev</a>
-        <a @click="getNextPokemon(limit)">Next</a>
+        <a @click="getPrevPokemon">Prev</a>
+        <a @click="getNextPokemon">Next</a>
       </div>
     </section>
 
     <section id="pokemon-list">
-      <router-link :to="{ name: 'pokemon-details', params: { pokemonId: pokemon.id } }" v-for="pokemon in pokemonArray" :key="pokemon.name" class="pokemon-card">
-        <p><i class="hashtag">#</i> {{ formatId(pokemon.id)}}</p>
-        <img :src="`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`"/>
+      <router-link
+        :to="{ name: 'pokemon-details', params: { pokemonId: pokemon.id } }"
+        v-for="pokemon in pokemonArray"
+        :key="pokemon.name"
+        class="pokemon-card"
+      >
+        <p><i class="hashtag">#</i> {{ formatId(pokemon.id) }}</p>
+        <img
+          :src="`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`"
+        />
         <h3>{{ pokemon.name }}</h3>
       </router-link>
     </section>
@@ -36,35 +43,19 @@ export default {
   data() {
     return {
       pokemonArray: [],
-      switchedLimit: false,
       limit: 20,
-      currentLimit: 20,
       offset: 0,
     };
   },
   methods: {
     formatId(id) {
       while (id.length < 4) {
-        id = '0' + id; //ex: 01 -> 001 -> 0001
+        id = "0" + id; //ex: 01 -> 001 -> 0001
       }
       return id;
     },
     getPokemon() {
-      PokeApiService.getPokemon(this.currentLimit, this.offset).then((response) => {
-      this.pokemonArray = response.data.results.map((result) => {
-        const indexOfPokemon = result.url.lastIndexOf("pokemon/");
-        const indexOfLastSlash = result.url.lastIndexOf("/");
-        const id = result.url.substring(indexOfPokemon + 8, indexOfLastSlash);
-
-        return {
-          id: id,
-          name: result.name
-        };
-      });
-    });
-    },
-    get60Pokemon() {
-      PokeApiService.get60().then((response) => {
+      PokeApiService.getPokemon(this.limit, this.offset).then((response) => {
         this.pokemonArray = response.data.results.map((result) => {
           const indexOfPokemon = result.url.lastIndexOf("pokemon/");
           const indexOfLastSlash = result.url.lastIndexOf("/");
@@ -78,18 +69,16 @@ export default {
       });
     },
     getPrevPokemon() {
-      if (this.offset - parseInt(this.limit) >= 0) {
+      if (this.offset - parseInt(this.limit) > 0) {
         this.offset -= parseInt(this.limit);
       } else {
-        this.offset = 0
+        this.offset = 0;
       }
       this.getPokemon();
-      this.limit = parseInt(this.currentLimit);
     },
     getNextPokemon() {
       this.offset += parseInt(this.limit);
       this.getPokemon();
-      this.limit = parseInt(this.currentLimit);
     },
   },
   created() {
@@ -101,7 +90,7 @@ export default {
 
         return {
           id: id,
-          name: result.name
+          name: result.name,
         };
       });
     });
@@ -141,6 +130,7 @@ h2 {
   font-size: 1.7rem;
   border: 0.4rem solid var(--yellow);
   border-radius: 0.7rem;
+  cursor: pointer;
 }
 
 #result-dropdown > option {
@@ -196,17 +186,17 @@ h2 {
   width: 30rem;
   min-width: fit-content;
   margin: 2.5rem 1rem;
-  border: .4rem solid black;
+  border: 0.4rem solid black;
   border-radius: 1.8rem;
   padding: 2.5rem 1rem;
-  gap: .7rem;
+  gap: 0.7rem;
   text-transform: capitalize;
   color: var(--blue);
   background-color: var(--light-grey);
 }
 
 .pokemon-card:hover {
-  color:var(--red)
+  color: var(--red);
 }
 
 .hashtag {
