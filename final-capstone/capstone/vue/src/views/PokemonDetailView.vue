@@ -17,11 +17,18 @@
       </section>
 
       <!-- evolution section? -->
-      <section>
-        <div>
-          <img src="" alt="" />
-          <p>Name:</p>
-        </div>
+      <section id="evolution-details">
+        <h2>Evolutions</h2>
+        <section class="evolution-list">
+          <div
+            class="evolution"
+            v-for="evolution in evolutions"
+            :key="evolution.id"
+          >
+            <img src="" :alt="`${evolution.name} photo`" />
+            <p>Name: {{ evolution.name }}</p>
+          </div>
+        </section>
       </section>
     </section>
   </div>
@@ -105,28 +112,27 @@ export default {
 
 #pokemon-card {
   height: 75%;
-  width: 50%;
-  margin: 0 auto;
+  margin: 0 5rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  font-size: 2rem; /* set default font-size */
+  font-size: 2.4rem; /* set default font-size */
+  /* background-color: aquamarine;   */
 }
 
 .header {
   height: fit-content;
-  width: fit-content;
-  padding-bottom: 2rem;
+  padding-bottom: 1.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 4rem;
+  flex-wrap: wrap;
+  font-size: 2rem;
   text-transform: capitalize;
 }
 
-.header > h1 {
-  margin-right: 2.5rem;
+.header > h1,
+.hashtag {
+  padding: 1rem;
 }
 
 .hashtag {
@@ -135,21 +141,27 @@ export default {
 }
 
 #pokemon-info {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-areas: 
-    "photo information";
-    justify-content: center;
-    align-items: center;
-    height: 30rem;
-    width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  height: 30rem;
+  margin: 0 auto;
+  /* background-color: blueviolet; */
 }
 
 #pokemon-info > .photo {
-    grid-area: photo;
+  height: 100%;
+  margin: 0 auto;
+}
+
+#pokemon-info > .photo > img {
+  border: 0.3rem solid red;
+  border-radius: 1.2rem;
+  height: 100%;
 }
 
 #pokemon-info > .information {
-    grid-area: information;
+  margin-left: 2rem;
 }
 </style>
