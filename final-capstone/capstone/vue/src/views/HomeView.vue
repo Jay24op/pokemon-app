@@ -6,12 +6,25 @@
       <div class="results">
         <h2>Results per page:</h2>
         <select name="result" id="result-dropdown" v-model="limit">
+          <!-- review video#2 -->
           <option value="20" :class="{ selected: limit === '20' }">20</option>
           <option value="40" :class="{ selected: limit === '40' }">40</option>
           <option value="60" :class="{ selected: limit === '60' }">60</option>
           <option value="80" :class="{ selected: limit === '80' }">80</option>
         </select>
       </div>
+      <!-- <div>
+        Results per page:
+        <ul>
+          <li v-for="opt in "></li>
+        </ul>
+        <select name="result" id="result-dropdown" v-model="limit">
+          <option value="20" :class="{ selected: limit === '20' }">20</option>
+          <option value="40" :class="{ selected: limit === '40' }">40</option>
+          <option value="60" :class="{ selected: limit === '60' }">60</option>
+          <option value="80" :class="{ selected: limit === '80' }">80</option>
+        </select> -->
+      <!-- </div> -->
 
       <div class="btns">
         <a @click="getPrevPokemon">Prev</a>
@@ -20,16 +33,10 @@
     </section>
 
     <section id="pokemon-list">
-      <router-link
-        :to="{ name: 'pokemon-details', params: { pokemonId: pokemon.id } }"
-        v-for="pokemon in pokemonArray"
-        :key="pokemon.name"
-        class="pokemon-card"
-      >
+      <router-link :to="{ name: 'pokemon-details', params: { pokemonId: pokemon.id } }" v-for="pokemon in pokemonArray"
+        :key="pokemon.name" class="pokemon-card">
         <p><i class="hashtag">#</i> {{ formatId(pokemon.id) }}</p>
-        <img
-          :src="`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`"
-        />
+        <img :src="`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`" />
         <h3>{{ pokemon.name }}</h3>
       </router-link>
     </section>
@@ -133,12 +140,14 @@ h2 {
   cursor: pointer;
 }
 
-#result-dropdown > option {
+#result-dropdown>option {
   font-size: 1.9rem;
 }
 
 .selected {
+  background-color: var(--light-grey);
   color: var(--turquoise);
+  cursor: default;
 }
 
 .btns {
@@ -150,7 +159,7 @@ h2 {
   margin-bottom: 0.3rem;
 }
 
-.btns > a {
+.btns>a {
   text-align: center;
   font-size: 1.4rem;
   font-weight: bold;
@@ -164,7 +173,7 @@ h2 {
   cursor: pointer;
 }
 
-.btns > a:hover {
+.btns>a:hover {
   border-color: var(--turquoise);
   color: var(--blue);
 }
@@ -172,8 +181,9 @@ h2 {
 #pokemon-list {
   display: flex;
   justify-content: space-between;
-  margin-top: 1.5rem;
   flex-wrap: wrap;
+  margin-top: 1.5rem;
+  max-height: 30vh;
 }
 
 .pokemon-card {
@@ -204,7 +214,7 @@ h2 {
   font-weight: 900;
 }
 
-.pokemon-card > img {
+.pokemon-card>img {
   height: 25rem;
 }
 </style>
