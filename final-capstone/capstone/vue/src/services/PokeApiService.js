@@ -1,28 +1,27 @@
 import axios from "axios";
 
 const http = axios.create({
-    baseURL: 'https://pokeapi.co/api/v2'
+  baseURL: "https://pokeapi.co/api/v2",
 });
 
 export default {
-    
-    getMore() {
-        return http.get('/pokemon')
-    },
+  getMore() {
+    return http.get("/pokemon");
+  },
 
-    getPokemon(limit, offset) {
-        return http.get(`pokemon?offset=${offset}&limit=${limit}`)
-    },
+  getPokemon(offset = 0, limit = 4) {
+    return http.get(`pokemon?offset=${offset}&limit=${limit}`);
+  },
 
-    getDetailsByIdOrName(idOrName) {
-        return http.get(`/pokemon/${idOrName}`)
-    },
+  getDetailsByIdOrName(idOrName) {
+    return http.get(`/pokemon/${idOrName}`);
+  },
 
-    getEvolutions(evolutionId) {
-        return http.get(`/evolution-chain/${evolutionId}`);
-    },
-    
-    getSpeciesById(id) {
-        return http.get(`/pokemon-species/${id}`)
-    },
-}
+  getEvolutions(evolutionId) {
+    return http.get(`/evolution-chain/${evolutionId}`);
+  },
+
+  getSpeciesById(id) {
+    return http.get(`/pokemon-species/${id}`);
+  },
+};

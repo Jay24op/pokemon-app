@@ -2,29 +2,24 @@
   <div class="home">
     <h1>All Pokemon</h1>
 
-    <section id="display">
+    <section id="paging-section">
       <div class="results">
         <h2>Results per page:</h2>
-        <select name="result" id="result-dropdown" v-model="limit">
-          <!-- review video#2 -->
-          <option value="20" :class="{ selected: limit === '20' }">20</option>
-          <option value="40" :class="{ selected: limit === '40' }">40</option>
-          <option value="60" :class="{ selected: limit === '60' }">60</option>
-          <option value="80" :class="{ selected: limit === '80' }">80</option>
+        <select
+          name="results-per-page"
+          id="results-dropdown"
+          v-model.number="paging.resultsPerPage.selectedOption"
+          @change="updateurl()"
+        >
+          <option
+            v-for="opt in paging.resultsPerPage.options"
+            :key="`results-per-page-opt-${opt}`"
+            :class="{ selected: opt == paging.resultsPerPage.selectedOption }"
+          >
+            {{ opt }}
+          </option>
         </select>
       </div>
-      <!-- <div>
-        Results per page:
-        <ul>
-          <li v-for="opt in "></li>
-        </ul>
-        <select name="result" id="result-dropdown" v-model="limit">
-          <option value="20" :class="{ selected: limit === '20' }">20</option>
-          <option value="40" :class="{ selected: limit === '40' }">40</option>
-          <option value="60" :class="{ selected: limit === '60' }">60</option>
-          <option value="80" :class="{ selected: limit === '80' }">80</option>
-        </select> -->
-      <!-- </div> -->
 
       <div class="btns">
         <a @click="getPrevPokemon">Prev</a>
@@ -33,10 +28,16 @@
     </section>
 
     <section id="pokemon-list">
-      <router-link :to="{ name: 'pokemon-details', params: { pokemonId: pokemon.id } }" v-for="pokemon in pokemonArray"
-        :key="pokemon.name" class="pokemon-card">
+      <router-link
+        :to="{ name: 'pokemon-details', params: { pokemonId: pokemon.id } }"
+        v-for="pokemon in pokemonArray"
+        :key="pokemon.name"
+        class="pokemon-card"
+      >
         <p><i class="hashtag">#</i> {{ formatId(pokemon.id) }}</p>
-        <img :src="`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`" />
+        <img
+          :src="`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`"
+        />
         <h3>{{ pokemon.name }}</h3>
       </router-link>
     </section>
@@ -50,8 +51,13 @@ export default {
   data() {
     return {
       pokemonArray: [],
-      limit: 20,
-      offset: 0,
+      paging: {
+        offset: 0,
+        resultsPerPage: {
+          options: [12, 24, 48],
+          selectedOption: 12,
+        },
+      },
     };
   },
   methods: {
@@ -62,7 +68,10 @@ export default {
       return id;
     },
     getPokemon() {
-      PokeApiService.getPokemon(this.limit, this.offset).then((response) => {
+      PokeApiService.getPokemon(
+        this.paging.offset,
+        this.paging.resultsPerPage.selectedOption
+      ).then((response) => {
         this.pokemonArray = response.data.results.map((result) => {
           const indexOfPokemon = result.url.lastIndexOf("pokemon/");
           const indexOfLastSlash = result.url.lastIndexOf("/");
@@ -76,61 +85,71 @@ export default {
       });
     },
     getPrevPokemon() {
-      if (this.offset - parseInt(this.limit) > 0) {
-        this.offset -= parseInt(this.limit);
-      } else {
-        this.offset = 0;
+      this.paging.offset -= this.paging.resultsPerPage.selectedOption;
+      if (this.paging.offset < 0) {
+        this.paging.offset = 0;
       }
-      this.getPokemon();
+      this.updateurl();
     },
     getNextPokemon() {
-      this.offset += parseInt(this.limit);
+      this.paging.offset += this.paging.resultsPerPage.selectedOption;
+      this.updateurl();
+    },
+    updateurl() {
       this.getPokemon();
+
+      const queryObj = {
+        ...this.$route.query,
+        resultsPerPage: this.paging.resultsPerPage.selectedOption,
+        offset: this.paging.offset,
+      };
+      this.$router.replace({
+        name: this.$route.name,
+        query: queryObj,
+      });
     },
   },
   created() {
-    PokeApiService.getMore().then((response) => {
-      this.pokemonArray = response.data.results.map((result) => {
-        const indexOfPokemon = result.url.lastIndexOf("pokemon/");
-        const indexOfLastSlash = result.url.lastIndexOf("/");
-        const id = result.url.substring(indexOfPokemon + 8, indexOfLastSlash);
+    if (this.$route.query.resultsPerPage != null) {
+      this.paging.resultsPerPage.selectedOption = Number(
+        this.$route.query.resultsPerPage
+      );
+    }
 
-        return {
-          id: id,
-          name: result.name,
-        };
-      });
-    });
+    if (this.$route.query.offset != null) {
+      this.paging.offset = Number(this.$route.query.offset);
+    }
+
+    this.getPokemon();
   },
 };
 </script>
 
 <style scoped>
 h1 {
-  font-size: 5rem;
+  font-size: 3.5rem;
   font-weight: 800;
-  margin-bottom: 2rem;
-  text-align: center;
+  margin-bottom: 1rem;
+  padding-left: 2rem;
+  padding-top: 1rem;
   color: var(--yellow);
 }
-
 h2 {
-  font-size: 2.5rem;
+  font-size: 1.75rem;
+  margin-right: 0.5rem;
 }
 
-#display {
+#paging-section {
   display: flex;
   justify-content: end;
-  height: 5rem;
+  align-items: baseline;
 }
-
 .results {
   display: flex;
   align-items: center;
   margin-right: 1.5rem;
 }
-
-#result-dropdown {
+#results-dropdown {
   margin: 0 1.2rem;
   height: 67%;
   width: 5.7rem;
@@ -139,27 +158,23 @@ h2 {
   border-radius: 0.7rem;
   cursor: pointer;
 }
-
-#result-dropdown>option {
+#results-dropdown > option {
   font-size: 1.9rem;
 }
-
 .selected {
-  background-color: var(--light-grey);
-  color: var(--turquoise);
+  background-color: var(--blue);
+  color: var(--yellow);
   cursor: default;
 }
-
 .btns {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
   width: 17rem;
   margin-right: 2rem;
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.25rem;
 }
-
-.btns>a {
+.btns > a {
   text-align: center;
   font-size: 1.4rem;
   font-weight: bold;
@@ -172,49 +187,45 @@ h2 {
   background-color: var(--yellow);
   cursor: pointer;
 }
-
-.btns>a:hover {
+.btns > a:hover {
   border-color: var(--turquoise);
   color: var(--blue);
 }
 
 #pokemon-list {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   flex-wrap: wrap;
-  margin-top: 1.5rem;
-  max-height: 30vh;
+  gap: 2rem;
+  padding: 1.5rem 0;
+  margin: 1.5rem auto 0;
+  height: 42rem;
+  max-width: 85%;
+  border: 1.25rem ridge var(--turquoise);
+  background-color: var(--grey);
+  overflow-y: auto;
+  scrollbar-color: var(--yellow) var(--blue);
+  scrollbar-width: thin;
 }
-
 .pokemon-card {
-  font-size: 1.5rem;
-  font-weight: bold;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 30rem;
-  min-width: fit-content;
-  margin: 2.5rem 1rem;
-  border: 0.4rem solid black;
-  border-radius: 1.8rem;
-  padding: 2.5rem 1rem;
-  gap: 0.7rem;
+  border: 0.25rem inset var(--yellow);
+  border-radius: 1rem;
+  padding: 1.75rem;
+  width: 18rem;
+  font-size: 1.2rem;
+  font-weight: bold;
   text-transform: capitalize;
-  color: var(--blue);
   background-color: var(--light-grey);
+  color: var(--blue);
 }
-
-.pokemon-card:hover {
-  color: var(--red);
-}
-
 .hashtag {
   font-size: 2rem;
-  font-weight: 900;
 }
-
-.pokemon-card>img {
-  height: 25rem;
+.pokemon-card:hover {
+  color: var(--red);
 }
 </style>
