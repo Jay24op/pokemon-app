@@ -22,7 +22,7 @@ const routes = [
     name: 'home',
     component: HomeView,
     meta: {
-      requiresAuth: true
+      requiresAuth: false
     }
   },
   {
@@ -54,7 +54,7 @@ const routes = [
     name: "pokemon-details",
     component: PokemonDetailView,
     meta: {
-      requiresAuth: true
+      requiresAuth: false
     }
   }
 ];

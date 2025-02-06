@@ -2,25 +2,26 @@
   <div id="pokemon-app">
     <section id="header">
       <section id="nav">
-        <div class="links" v-if="$store.state.token != ''">
+        <div class="links">
+          <!--v-if="$store.state.token != ''" -->
           <router-link v-bind:to="{ name: 'home' }">View All</router-link>
-          <img src="./assets/pokeball-icon.png" alt="pokeball image">
-          <router-link v-bind:to="{ name: 'logout' }" >Logout</router-link>
+          <img src="./assets/pokeball-icon.png" alt="pokeball image" />
+          <router-link v-bind:to="{ name: 'logout' }">Logout</router-link>
         </div>
       </section>
       <section id="logo">
-        <img src="./assets/pokemon-logo.png" alt="">
+        <img src="./assets/pokemon-logo.png" alt="" />
       </section>
     </section>
     <section id="view">
-      <router-view/>
+      <router-view />
     </section>
   </div>
 </template>
 
 <style scoped>
-
-#pokemon-app {}
+#pokemon-app {
+}
 
 #header {
   height: 25rem;
@@ -39,7 +40,7 @@
   width: 35rem;
   min-width: fit-content;
   margin: 0 1rem 0 auto;
-  border: .4rem solid var(--yellow);
+  border: 0.4rem solid var(--yellow);
   border-radius: 1.75rem;
   background-color: var(--nav-interior);
 }
@@ -52,10 +53,11 @@
 
 .links > a {
   color: var(--blue);
-  transition: font-size .2s linear;
+  transition: font-size 0.2s linear;
 }
 
-.links > a:hover, .links > .router-link-exact-active {
+.links > a:hover,
+.links > .router-link-exact-active {
   color: var(--turquoise);
 }
 
@@ -82,7 +84,6 @@
 }
 
 #view {
-  padding: .5rem 2rem 1.5rem;
+  padding: 0.5rem 2rem 1.5rem;
 }
-
 </style>
