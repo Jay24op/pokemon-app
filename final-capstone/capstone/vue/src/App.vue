@@ -6,6 +6,8 @@
           <!--v-if="$store.state.token != ''" -->
           <router-link v-bind:to="{ name: 'home' }">View All</router-link>
           <img src="./assets/pokeball-icon.png" alt="pokeball image" />
+          <router-link v-bind:to="{ name: 'type' }">View Type</router-link>
+          <img src="./assets/pokeball-icon.png" alt="pokeball image" />
           <router-link v-bind:to="{ name: 'logout' }">Logout</router-link>
         </div>
       </section>
@@ -20,9 +22,6 @@
 </template>
 
 <style scoped>
-#pokemon-app {
-}
-
 #header {
   height: 25rem;
   background: var(--pokeball-gradient);
@@ -31,7 +30,7 @@
 }
 
 #nav {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   font-weight: bold;
   display: flex;
   align-items: center;
@@ -39,7 +38,8 @@
   height: 5rem;
   width: 35rem;
   min-width: fit-content;
-  margin: 0 1rem 0 auto;
+  margin: 0 1.2rem 0 auto;
+  padding: 0 1rem;
   border: 0.4rem solid var(--yellow);
   border-radius: 1.75rem;
   background-color: var(--nav-interior);
@@ -62,7 +62,7 @@
 }
 
 .links > a:hover {
-  font-size: 1.7rem;
+  font-size: 1.5rem;
 }
 
 .links > img {

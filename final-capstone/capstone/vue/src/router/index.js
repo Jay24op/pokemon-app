@@ -26,6 +26,14 @@ const routes = [
     }
   },
   {
+    path: '/type',
+    name: 'type',
+    component: HomeView,
+    meta: {
+      requiresAuth: false
+    }
+  },
+  {
     path: "/login",
     name: "login",
     component: LoginView,
